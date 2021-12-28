@@ -1,0 +1,45 @@
+Collection: New Collection
+Title: fade
+Description: 
+Mode: 2
+
+Selected: none at 0 scaled 1000320 SR 22050
+cmd: Channel Both
+
+Selected: 0 to 5707 scaled 1000320 SR 22050
+cmd: Amplitude\Amplify
+1: 0
+2: 0
+3: 1
+4: 1
+5: 1
+6: 0
+7: 0
+8: 0
+9: 1
+10: 0
+11: 1
+12: 0
+13: 0
+14: 0
+
+Selected: 991758 to 998892 scaled 1000320 SR 22050
+cmd: Amplitude\Amplify
+1: 1
+2: 1
+3: 0
+4: 0
+5: 1
+6: 0
+7: 0
+8: 0
+9: 1
+10: 0
+11: 1
+12: 0
+13: 0
+14: 0
+
+Selected: none at 0 scaled 1000320 SR 22050
+End:
+
