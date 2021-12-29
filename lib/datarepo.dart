@@ -22,6 +22,26 @@ class DataRepo {
 
   List<DataItem> items = [];
 
+  InitWithJson( ) {
+    _readJson();
+  }
+
+  Future<void> _readJson() async {
+    final String response =  await rootBundle.loadString('assets/text/image_list.json');
+
+    final List<dynamic> data = await json.decode(response);
+    items = [];
+    for (dynamic it in data) {
+      final DataItem item = DataItem.fromJson(it);    // Parse data for one DataItem
+      items.add(item);                                // add item to items List
+    }
+  }
+
+  InitEmpty() {
+    DataItem item = new DataItem(0, 'loading_image.gif', 'Loading', 'Loading from JSON');
+    items.add(item);
+  }
+
   InitInCode(){
     DataItem item = new DataItem(1,'by_the_fire_1.jpg', 'By the Fire', 'Chippewa Camp Scene');
     item.setGawboyDescription('The series of paintings in which fire light was kind of common theme.');

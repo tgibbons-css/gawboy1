@@ -21,7 +21,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    repo.InitInCode();      // initialize the repo
+    //repo.InitInCode();      // initialize the repo
+    repo.InitEmpty();       // init item list wiht loading image until future returns below and resets it
+    repo.InitWithJson();    // initialize the repo from the jason file
     super.initState();
   }
 
