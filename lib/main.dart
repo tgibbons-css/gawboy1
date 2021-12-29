@@ -7,13 +7,23 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+//class MyApp extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
 
   final PageController ctrl = PageController();
 
-  datarepo repo = new datarepo();
+  DataRepo repo = new DataRepo();
 
-  final String filePrfix = "assets/images/";
+  @override
+  void initState() {
+    repo.InitInCode();      // initialize the repo
+    super.initState();
+  }
 
   final List<String> fileList = [
     'by_the_fire_1.jpg',
@@ -123,15 +133,35 @@ class MyApp extends StatelessWidget {
           ),
           body: PageView .builder(
             controller: ctrl,
-            itemCount: fileList.length,
+            //itemCount: fileList.length,
+            itemCount: repo.length(),
+
             itemBuilder: (context, index) {
               return
                 //Image.asset(items[index]);
-                KenBurns(maxScale : 2,
-                  minAnimationDuration : Duration(milliseconds: 5000),
-                  maxAnimationDuration : Duration(milliseconds: 10000),
-                  child: Image.asset(filePrfix + fileList[index], fit: BoxFit.cover),
+                Stack(
+                    alignment: FractionalOffset(0.5, 0.8),
+                    children: <Widget>[
+                      KenBurns(maxScale : 2,
+                        minAnimationDuration : Duration(milliseconds: 20000),
+                        maxAnimationDuration : Duration(milliseconds: 50000),
+                        //child: Image.asset(filePrfix + fileList[index], fit: BoxFit.cover),
+                        child: Image.asset(repo.getImageFile(index), fit: BoxFit.cover),
+                      ),
+                      Container(
+                        alignment: FractionalOffset(0.5, 0.8),
+                        child: Text(
+                          repo.getImageTitle(index),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 36,
+                        ),
+                      ),
+                      )
+                    ]
                 );
+
             },
           ),
       ),
