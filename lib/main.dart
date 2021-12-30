@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kenburns/kenburns.dart';
 
 import 'datarepo.dart';
+import 'dataitem.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,16 +15,19 @@ class MyApp extends StatefulWidget {
 
 //class MyApp extends StatelessWidget {
 class _MyAppState extends State<MyApp> {
-
   final PageController ctrl = PageController();
 
   DataRepo repo = new DataRepo();
+  Future<List<DataItem>> futureItems;
 
   @override
   void initState() {
+    print("Inside initState");
     //repo.InitInCode();      // initialize the repo
-    repo.InitEmpty();       // init item list wiht loading image until future returns below and resets it
-    repo.InitWithJson();    // initialize the repo from the jason file
+    //repo.InitEmpty();       // init item list wiht loading image until future returns below and resets it
+    //repo.InitWithJson();    // initialize the repo from the jason file
+    // Sample code from https://docs.flutter.dev/cookbook/networking/fetch-data#why-is-fetchalbum-called-in-initstate
+    futureItems = repo.InitWithJson();
     super.initState();
   }
 
@@ -124,53 +128,62 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Scaffold(
           appBar: AppBar(
             title: Text('SlideShow'),
           ),
-          body: PageView .builder(
-            controller: ctrl,
-            //itemCount: fileList.length,
-            itemCount: repo.length(),
-
-            itemBuilder: (context, index) {
-              return
-                //Image.asset(items[index]);
-                Stack(
-                    alignment: FractionalOffset(0.5, 0.8),
-                    children: <Widget>[
-                      KenBurns(maxScale : 2,
-                        minAnimationDuration : Duration(milliseconds: 20000),
-                        maxAnimationDuration : Duration(milliseconds: 50000),
-                        //child: Image.asset(filePrfix + fileList[index], fit: BoxFit.cover),
-                        child: Image.asset(repo.getImageFile(index), fit: BoxFit.cover),
-                      ),
-                      Container(
-                        alignment: FractionalOffset(0.5, 0.8),
-                        child: Text(
-                          repo.getImageTitle(index),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 36,
-                        ),
-                      ),
-                      )
-                    ]
+          body: FutureBuilder<List<DataItem>>(
+            future: futureItems,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                //print("Inside FutureBuilder --- no data");
+                // No data yet, show a loading spinner.
+                return (Image.asset('assets/images/loading_image.gif',
+                    fit: BoxFit.cover));
+              } else {
+                //print("Inside FutureBuilder --- DATA");
+                return PageView.builder(
+                  controller: ctrl,
+                  //itemCount: fileList.length,
+                  itemCount: repo.length(),
+                  itemBuilder: (context, index) {
+                    return
+                        //Image.asset(items[index]);
+                        Stack(
+                            //alignment: FractionalOffset(0.5, 0.8),
+                            children: <Widget>[
+                          KenBurns(
+                            maxScale: 2,
+                            minAnimationDuration: Duration(milliseconds: 20000),
+                            maxAnimationDuration: Duration(milliseconds: 50000),
+                            //child: Image.asset(filePrfix + fileList[index], fit: BoxFit.cover),
+                            child: Image.asset(repo.getImageFile(index),
+                                fit: BoxFit.cover,
+                                height: double.infinity),
+                          ),
+                          Container(
+                            alignment: FractionalOffset(0.5, 0.8),
+                            child: Text(
+                              repo.getImageTitle(index),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 36,
+                              ),
+                            ),
+                          )
+                        ]);
+                  },
                 );
-
+              }
+              ;
             },
           ),
-      ),
-    );
+        ));
   }
 }
-
-
-
-

@@ -6,7 +6,7 @@ import 'dataitem.dart';
 class DataRepo {
 
   int length() {
-    return imageFileList.length;
+    return items.length;
   }
 
   String getImageFile(int idx) {
@@ -22,11 +22,7 @@ class DataRepo {
 
   List<DataItem> items = [];
 
-  InitWithJson( ) {
-    _readJson();
-  }
-
-  Future<void> _readJson() async {
+  Future<List<DataItem>> InitWithJson() async {
     final String response =  await rootBundle.loadString('assets/text/image_list.json');
 
     final List<dynamic> data = await json.decode(response);
@@ -35,6 +31,7 @@ class DataRepo {
       final DataItem item = DataItem.fromJson(it);    // Parse data for one DataItem
       items.add(item);                                // add item to items List
     }
+    return items;
   }
 
   InitEmpty() {
