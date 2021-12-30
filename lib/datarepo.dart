@@ -14,11 +14,16 @@ class DataRepo {
     return imageFilePrfix + items[idx].imageFile;
   }
 
+  String getGawboyAudioFile(int idx) {
+    return audioFilePrfix + items[idx].gawboyAudio;
+  }
+
   String getImageTitle(int idx) {
     return items[idx].name;
   }
 
   final String imageFilePrfix = "assets/images/";
+  final String audioFilePrfix = "assets/audio/";
 
   List<DataItem> items = [];
 
