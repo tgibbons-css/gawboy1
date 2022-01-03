@@ -30,7 +30,14 @@ class _MyAppState extends State<MyApp> {
     //repo.InitWithJson();    // initialize the repo from the jason file
     // Sample code from https://docs.flutter.dev/cookbook/networking/fetch-data#why-is-fetchalbum-called-in-initstate
     futureItems = repo.InitWithJson();
+    player = AudioPlayer();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   final List<String> fileList = [
@@ -79,33 +86,38 @@ class _MyAppState extends State<MyApp> {
                   //itemCount: fileList.length,
                   itemCount: repo.length(),
                   itemBuilder: (context, index) {
+                    print("PageView Builder --- playing audio "+index.toString());
+
                     playAudio(index);
                     return
                         //Image.asset(items[index]);
-                        Stack(
-                            //alignment: FractionalOffset(0.5, 0.8),
-                            children: <Widget>[
-                          KenBurns(
-                            maxScale: 2,
-                            minAnimationDuration: Duration(milliseconds: 20000),
-                            maxAnimationDuration: Duration(milliseconds: 50000),
-                            //child: Image.asset(filePrfix + fileList[index], fit: BoxFit.cover),
-                            child: Image.asset(repo.getImageFile(index),
-                                fit: BoxFit.cover,
-                                height: double.infinity),
-                          ),
-                          Container(
-                            alignment: FractionalOffset(0.5, 0.8),
-                            child: Text(
-                              repo.getImageTitle(index),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 36,
-                              ),
+                        Container(
+                          constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height), // add this line
+                          child: Stack(
+                              //alignment: FractionalOffset(0.5, 0.8),
+                              children: <Widget>[
+                            KenBurns(
+                              maxScale: 2,
+                              minAnimationDuration: Duration(milliseconds: 10000),
+                              maxAnimationDuration: Duration(milliseconds: 20000),
+                              //child: Image.asset(filePrfix + fileList[index], fit: BoxFit.cover),
+                              child: Image.asset(repo.getImageFile(index),
+                                  fit: BoxFit.cover,
+                                  height: double.infinity),
                             ),
-                          )
-                        ]);
+                            Container(
+                              alignment: FractionalOffset(0.5, 0.8),
+                              child: Text(
+                                repo.getImageTitle(index),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 36,
+                                ),
+                              ),
+                            )
+                          ]),
+                        );
                   },
                 );
               }
