@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   DataRepo repo = new DataRepo();
   Future<List<DataItem>> futureItems;
   AudioPlayer player;
+  bool languageState = true;   // state is true for Anishinaabe and false for English
 
   @override
   void initState() {
@@ -56,6 +57,15 @@ class _MyAppState extends State<MyApp> {
   void playAudio(int index) async {
       await player.setAsset(repo.getJourdainAudio(index));
       player.play();
+  }
+
+  String getTextDescription(int index) {
+    if (languageState) {
+      return repo.getJourdainAnishinaabe(index);
+    } else {
+      return repo.getJourdainEnglish(index);
+    }
+
   }
 
   // This widget is the root of your application.
@@ -107,12 +117,20 @@ class _MyAppState extends State<MyApp> {
                             ),
                             Container(
                               alignment: FractionalOffset(0.5, 0.8),
-                              child: Text(
-                                repo.getJourdainAnishinaabe(index),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 36,
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    print("----- text click -----");
+                                    languageState = !languageState;
+                                  });
+                                },
+                                child: Text(
+                                  getTextDescription(index),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 36,
+                                  ),
                                 ),
                               ),
                             )
