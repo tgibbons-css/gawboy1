@@ -6,6 +6,9 @@ class DataItem {
   String name;
   String gawboyDescription;
   String gawboyAudio;
+  String JourdainAnishinaabe;
+  String JourdainEnglish;
+  String JourdainAudio;
 
   DataItem(this.num, this.imageFile, this.catagory, this.name);
   /*
@@ -23,7 +26,10 @@ class DataItem {
         catagory = json['catagory'],
         name = json['name'],
         gawboyDescription = json['gawboyDescription'],
-        gawboyAudio = json['gawboyAudio'];
+        gawboyAudio = json['gawboyAudio'],
+        JourdainAnishinaabe = json['JourdainAnishinaabe'],
+        JourdainEnglish = json['JourdainEnglish'],
+        JourdainAudio = json['JourdainAudio'];
 
   Map<String, dynamic> toJson() => {
     'num': num,
@@ -32,6 +38,9 @@ class DataItem {
     'name': name,
     'gawboyDescription': gawboyDescription,
     'gawboyAudio': gawboyAudio,
+    'JourdainAnishinaabe': JourdainAnishinaabe,
+    'JourdainEnglish': JourdainEnglish,
+    'JourdainAudio': JourdainAudio,
   };
 
   setGawboyDescription(String newDescription) {

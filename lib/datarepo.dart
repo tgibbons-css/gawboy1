@@ -18,9 +18,22 @@ class DataRepo {
     return audioFilePrfix + items[idx].gawboyAudio;
   }
 
+  String getJourdainAudio(int idx) {
+    return audioFilePrfix + items[idx].JourdainAudio;
+  }
+
   String getImageTitle(int idx) {
     return items[idx].name;
   }
+
+  String getJourdainAnishinaabe(int idx) {
+    return items[idx].JourdainAnishinaabe;
+  }
+
+  String getJourdainEnglish(int idx) {
+    return items[idx].JourdainEnglish;
+  }
+
 
   final String imageFilePrfix = "assets/images/";
   final String audioFilePrfix = "assets/audio/";
@@ -28,7 +41,7 @@ class DataRepo {
   List<DataItem> items = [];
 
   Future<List<DataItem>> InitWithJson() async {
-    final String response =  await rootBundle.loadString('assets/text/image_list.json');
+    final String response =  await rootBundle.loadString('assets/text/image_list2.json');
 
     final List<dynamic> data = await json.decode(response);
     items = [];

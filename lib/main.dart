@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   ];
 
   void playAudio(int index) async {
-      await player.setAsset(repo.getGawboyAudioFile(index));
+      await player.setAsset(repo.getJourdainAudio(index));
       player.play();
   }
 
@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
                             Container(
                               alignment: FractionalOffset(0.5, 0.8),
                               child: Text(
-                                repo.getImageTitle(index),
+                                repo.getJourdainAnishinaabe(index),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
